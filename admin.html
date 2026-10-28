@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="NK Design administration dashboard.">
+    <title>Studio Dashboard — NK Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="admin.js" defer></script>
+  </head>
+  <body class="admin-page">
+    <a class="skip-link" href="#admin-main" data-admin-i18n="skip">Skip to dashboard</a>
+    <button class="admin-mobile-menu" id="admin-mobile-menu" type="button" aria-expanded="false" aria-controls="admin-dashboard" data-admin-i18n="menu">Dashboard menu</button>
+    <header class="admin-header">
+      <a class="brand admin-brand" href="index.html" aria-label="NK Design home">
+        <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        <span class="admin-brand-label">STUDIO <span>ADMIN</span></span>
+      </a>
+      <div class="admin-header-actions">
+        <div class="language-switch" role="group" aria-label="Choose language">
+          <button type="button" class="language-option is-selected" data-admin-language="en" aria-pressed="true">EN</button>
+          <span aria-hidden="true"></span>
+          <button type="button" class="language-option" data-admin-language="mr" aria-pressed="false">मराठी</button>
+        </div>
+        <a class="admin-view-site" href="index.html" data-admin-i18n="viewSite">View website ↗</a>
+        <button class="admin-signout" id="admin-signout" type="button" hidden data-admin-i18n="signOut">Sign out</button>
+      </div>
+    </header>
+
+    <main class="admin-main page-width" id="admin-main">
+      <section class="admin-welcome">
+        <div>
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-admin-i18n="eyebrow">YOUR STUDIO, AT A GLANCE</span></p>
+          <h1><span data-admin-i18n="welcome">Good day</span><span class="admin-user-name" id="admin-user-name"></span><em>.</em></h1>
+          <p data-admin-i18n="intro">Keep an eye on orders, requests, and the details that make every stitch count.</p>
+        </div>
+        <time class="admin-date" id="admin-date"></time>
+      </section>
+      <nav class="admin-local-nav" id="admin-local-nav" aria-label="Dashboard sections">
+        <a href="#admin-main" data-admin-i18n="overview">Overview</a>
+        <a href="#orders" data-admin-i18n="recentOrders">Recent orders</a>
+        <a href="#design-requests" data-admin-i18n="latestRequests">Design requests</a>
+        <a href="#products" data-admin-i18n="manageProducts">Product catalog</a>
+        <a href="#collections" data-admin-i18n="manageCollections">Collections</a>
+      </nav>
+
+      <section class="admin-access-state glass-card" id="admin-access-state" role="status" aria-live="polite">
+        <span class="admin-loading-mark" aria-hidden="true"></span>
+        <span data-admin-i18n="checking">Checking your secure studio access…</span>
+      </section>
+
+      <div id="admin-dashboard" hidden>
+        <section class="admin-metrics" aria-label="Store overview">
+          <article class="admin-metric glass-card">
+            <span class="admin-metric-icon" aria-hidden="true">↗</span>
+            <span class="admin-metric-label" data-admin-i18n="metricOrders">Orders today</span>
+            <strong id="metric-orders">—</strong>
+            <span class="admin-metric-note" data-admin-i18n="fromOrders">From verified orders</span>
+          </article>
+          <article class="admin-metric glass-card">
+            <span class="admin-metric-icon" aria-hidden="true">✳</span>
+            <span class="admin-metric-label" data-admin-i18n="metricRequests">Design requests</span>
+            <strong id="metric-requests">—</strong>
+            <span class="admin-metric-note" data-admin-i18n="awaitingReview">Awaiting your review</span>
+          </article>
+          <article class="admin-metric glass-card">
+            <span class="admin-metric-icon" aria-hidden="true">◇</span>
+            <span class="admin-metric-label" data-admin-i18n="metricProducts">Active designs</span>
+            <strong id="metric-products">—</strong>
+            <span class="admin-metric-note" data-admin-i18n="liveCatalog">In your live catalog</span>
+          </article>
+          <article class="admin-metric glass-card">
+            <span class="admin-metric-icon" aria-hidden="true">₹</span>
+            <span class="admin-metric-label" data-admin-i18n="metricRevenue">Today's sales</span>
+            <strong id="metric-revenue">—</strong>
+            <span class="admin-metric-note" data-admin-i18n="verifiedRevenue">From paid orders</span>
+          </article>
+        </section>
+        <p class="admin-data-error admin-summary-error" id="summary-error" hidden></p>
+
+        <section class="admin-data-grid">
+          <article class="admin-data-card glass-card" id="orders">
+            <div class="admin-card-heading">
+              <div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-admin-i18n="recentEyebrow">THE LATEST</span></p><h2 data-admin-i18n="recentOrders">Recent orders</h2></div>
+              <a href="#orders" class="admin-text-link" data-admin-i18n="viewAll">View all ↗</a>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th data-admin-i18n="order">Order</th><th data-admin-i18n="customer">Customer</th><th data-admin-i18n="date">Date</th><th data-admin-i18n="amount">Amount</th><th data-admin-i18n="status">Status</th><th data-admin-i18n="actions">Actions</th></tr></thead>
+                <tbody id="recent-orders"><tr><td colspan="6" data-admin-i18n="loadingData">Loading secure data…</td></tr></tbody>
+              </table>
+            </div>
+            <p class="admin-data-error" id="orders-error" hidden></p>
+          </article>
+
+          <article class="admin-data-card glass-card" id="design-requests">
+            <div class="admin-card-heading">
+              <div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-admin-i18n="requestsEyebrow">MADE WITH YOU</span></p><h2 data-admin-i18n="latestRequests">Design requests</h2></div>
+              <a href="#design-requests" class="admin-text-link" data-admin-i18n="viewAll">View all ↗</a>
+            </div>
+            <div class="admin-request-list" id="latest-requests"></div>
+            <p class="admin-data-error" id="requests-error" hidden></p>
+          </article>
+        </section>
+
+        <section class="admin-data-card glass-card admin-products-card" id="products" aria-labelledby="admin-products-title">
+          <div class="admin-card-heading">
+            <div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-admin-i18n="catalogEyebrow">YOUR COLLECTION</span></p><h2 id="admin-products-title" data-admin-i18n="manageProducts">Product catalog</h2></div>
+            <div class="admin-catalog-actions"><span class="admin-catalog-count" id="admin-product-count"></span><button class="admin-primary-button" id="add-product" type="button" data-admin-i18n="addProduct">Add product</button></div>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th data-admin-i18n="photo">Photo</th><th data-admin-i18n="product">Product</th><th data-admin-i18n="category">Category</th><th data-admin-i18n="price">Price</th><th data-admin-i18n="stock">Stock</th><th data-admin-i18n="availability">Availability</th><th data-admin-i18n="actions">Actions</th></tr></thead>
+              <tbody id="admin-products"><tr><td colspan="7" data-admin-i18n="loadingData">Loading secure data…</td></tr></tbody>
+            </table>
+          </div>
+          <p class="admin-data-error" id="products-error" hidden></p>
+          <p class="admin-form-status" id="product-status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="admin-data-card glass-card admin-products-card" id="collections" aria-labelledby="admin-collections-title">
+          <div class="admin-card-heading">
+            <div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-admin-i18n="collectionsEyebrow">CURATED FOR YOUR CUSTOMERS</span></p><h2 id="admin-collections-title" data-admin-i18n="manageCollections">Collections</h2></div>
+            <button class="admin-primary-button" id="add-collection" type="button" data-admin-i18n="addCollection">Add collection</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th data-admin-i18n="collectionName">Collection</th><th data-admin-i18n="category">Category</th><th data-admin-i18n="attributes">Attributes</th><th data-admin-i18n="availability">Availability</th><th data-admin-i18n="actions">Actions</th></tr></thead>
+              <tbody id="admin-collections"><tr><td colspan="5" data-admin-i18n="loadingData">Loading secure data…</td></tr></tbody>
+            </table>
+          </div>
+          <p class="admin-data-error" id="collections-error" hidden></p>
+          <p class="admin-form-status" id="collection-status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="admin-quick-links" aria-label="Admin sections">
+          <a class="admin-quick-link glass-card" href="#orders"><span aria-hidden="true">↗</span><strong data-admin-i18n="manageOrders">Manage orders</strong><span data-admin-i18n="ordersHelp">Review status and fulfillment</span></a>
+          <a class="admin-quick-link glass-card" href="#design-requests"><span aria-hidden="true">✳</span><strong data-admin-i18n="manageRequests">Custom requests</strong><span data-admin-i18n="requestsHelp">Read client design notes</span></a>
+          <a class="admin-quick-link glass-card" href="#admin-products-title"><span aria-hidden="true">◇</span><strong data-admin-i18n="manageProducts">Product catalog</strong><span data-admin-i18n="productsHelp">Keep your live collection fresh</span></a>
+        </section>
+
+        <p class="admin-api-note" data-admin-i18n="apiNote">Dashboard figures are provided by your authenticated store API. Sales figures include only confirmed payments.</p>
+      </div>
+    </main>
+    <dialog class="admin-dialog glass-card" id="product-dialog" aria-labelledby="product-dialog-title">
+      <form id="product-form" novalidate>
+        <div class="admin-dialog-heading">
+          <div><p class="eyebrow eyebrow-dark" data-admin-i18n="productEditorEyebrow">PRODUCT EDITOR</p><h2 id="product-dialog-title" data-admin-i18n="addProduct">Add product</h2></div>
+          <button class="admin-dialog-close" type="button" data-close-dialog="product-dialog" aria-label="Close">×</button>
+        </div>
+        <input type="hidden" name="id">
+        <div class="admin-form-grid">
+          <label class="admin-field"><span data-admin-i18n="productName">Product name</span><input name="name" required maxlength="100"></label>
+          <label class="admin-field"><span data-admin-i18n="productNameMr">Product name (Marathi)</span><input name="nameMr" maxlength="100"></label>
+          <label class="admin-field"><span data-admin-i18n="category">Category</span><input name="category" required maxlength="80"></label>
+          <label class="admin-field"><span data-admin-i18n="categoryMr">Category (Marathi)</span><input name="categoryMr" maxlength="80"></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="description">Description</span><textarea name="description" rows="3" maxlength="600"></textarea></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="descriptionMr">Description (Marathi)</span><textarea name="descriptionMr" rows="3" maxlength="600"></textarea></label>
+          <label class="admin-field"><span data-admin-i18n="price">Price</span><input name="price" type="number" min="0" max="10000000" step="0.01" required></label>
+          <label class="admin-field"><span data-admin-i18n="discountPrice">Discount price (optional)</span><input name="discountPrice" type="number" min="0.01" max="9999999.99" step="0.01"></label>
+          <label class="admin-field"><span data-admin-i18n="stock">Stock</span><input name="stock" type="number" min="0" max="1000000" step="1" value="0" required></label>
+          <label class="admin-field"><span data-admin-i18n="sizes">Sizes (comma-separated)</span><input name="sizes" maxlength="400" placeholder="S, M, L"></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="colors">Colors (comma-separated)</span><input name="colors" maxlength="400" placeholder="Wine, Gold, Ivory"></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="photos">Product photos (JPG, PNG, WebP; up to 5 MB each)</span><input id="product-images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+          <div class="admin-product-image-preview admin-field-wide" id="product-image-preview" aria-live="polite"></div>
+          <label class="admin-check-field"><input name="active" type="checkbox" checked><span data-admin-i18n="active">Active</span></label>
+        </div>
+        <p class="admin-form-status" id="product-form-error" role="alert" hidden></p>
+        <div class="admin-dialog-actions">
+          <button class="admin-secondary-button" type="button" data-close-dialog="product-dialog" data-admin-i18n="cancel">Cancel</button>
+          <button class="admin-primary-button" id="save-product" type="submit" data-admin-i18n="saveProduct">Save product</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog class="admin-dialog glass-card" id="collection-dialog" aria-labelledby="collection-dialog-title">
+      <form id="collection-form" method="dialog">
+        <div class="admin-dialog-heading">
+          <div><p class="eyebrow eyebrow-dark" data-admin-i18n="collectionEditorEyebrow">COLLECTION EDITOR</p><h2 id="collection-dialog-title" data-admin-i18n="addCollection">Add collection</h2></div>
+          <button class="admin-dialog-close" type="button" data-close-dialog="collection-dialog" aria-label="Close">×</button>
+        </div>
+        <input type="hidden" name="id">
+        <div class="admin-form-grid">
+          <label class="admin-field"><span data-admin-i18n="collectionName">Collection name</span><input name="name" required maxlength="100" autocomplete="off"></label>
+          <label class="admin-field"><span data-admin-i18n="collectionNameMr">Collection name (Marathi)</span><input name="nameMr" maxlength="100" autocomplete="off"></label>
+          <label class="admin-field"><span data-admin-i18n="category">Category</span><input name="category" required maxlength="80"></label>
+          <label class="admin-field"><span data-admin-i18n="categoryMr">Category (Marathi)</span><input name="categoryMr" maxlength="80"></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="description">Description</span><textarea name="description" rows="3" maxlength="600"></textarea></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="descriptionMr">Description (Marathi)</span><textarea name="descriptionMr" rows="3" maxlength="600"></textarea></label>
+          <label class="admin-field admin-field-wide"><span data-admin-i18n="coverImage">Cover image URL</span><input name="coverImage" type="url" maxlength="1000" placeholder="https://…"></label>
+          <label class="admin-field"><span data-admin-i18n="sortOrder">Display order</span><input name="sortOrder" type="number" min="0" max="10000" step="1" value="0" required></label>
+          <div class="admin-field admin-field-wide">
+            <span data-admin-i18n="attributes">Attributes</span>
+            <div class="admin-attribute-list" id="collection-attributes"></div>
+            <button class="admin-secondary-button" id="add-attribute" type="button" data-admin-i18n="addAttribute">Add attribute</button>
+          </div>
+          <label class="admin-check-field"><input name="featured" type="checkbox"><span data-admin-i18n="featured">Featured collection</span></label>
+          <label class="admin-check-field"><input name="active" type="checkbox" checked><span data-admin-i18n="active">Active</span></label>
+        </div>
+        <p class="admin-form-status" id="collection-form-error" role="alert" hidden></p>
+        <div class="admin-dialog-actions">
+          <button class="admin-secondary-button" type="button" data-close-dialog="collection-dialog" data-admin-i18n="cancel">Cancel</button>
+          <button class="admin-primary-button" type="submit" data-admin-i18n="saveCollection">Save collection</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="admin-dialog glass-card" id="order-dialog" aria-labelledby="order-dialog-title">
+      <div class="admin-dialog-heading">
+        <div><p class="eyebrow eyebrow-dark" data-admin-i18n="orderDetailsEyebrow">ORDER DETAILS</p><h2 id="order-dialog-title">Order</h2></div>
+        <button class="admin-dialog-close" type="button" data-close-dialog="order-dialog" aria-label="Close">×</button>
+      </div>
+      <div id="order-detail-content" class="admin-order-details"></div>
+      <div class="admin-order-status-editor">
+        <label class="admin-field" for="order-status-select"><span data-admin-i18n="updateStatus">Update status</span>
+          <select id="order-status-select" name="status">
+            <option value="pending" data-admin-i18n="statusPending">Pending</option>
+            <option value="processing" data-admin-i18n="statusProcessing">Processing</option>
+            <option value="shipped" data-admin-i18n="statusShipped">Shipped</option>
+            <option value="delivered" data-admin-i18n="statusDelivered">Delivered</option>
+            <option value="cancelled" data-admin-i18n="statusCancelled">Cancelled</option>
+          </select>
+        </label>
+        <button class="admin-primary-button" id="save-order-status" type="button" data-admin-i18n="saveStatus">Save status</button>
+      </div>
+      <p class="admin-form-status" id="order-status-message" role="status" aria-live="polite" hidden></p>
+    </dialog>
+    <footer class="admin-footer"><span>NK DESIGN · STUDIO ADMIN</span><a href="index.html" data-admin-i18n="backWebsite">Back to website</a></footer>
+  </body>
+</html>

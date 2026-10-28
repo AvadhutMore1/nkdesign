@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Discover exquisite blouse designs, custom stitching, and timeless Indian craftsmanship at NK Design.">
+    <title>NK Design — Elegance in Every Thread</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell glass-card" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+
+        <div class="nav-content" id="primary-nav">
+          <div class="nav-links">
+            <a class="nav-link is-active" href="#home" data-i18n="navHome">Home</a>
+            <a class="nav-link" href="shop.html" data-i18n="navCollections">Collections</a>
+            <a class="nav-link" href="custom-design.html" data-i18n="navCustom">Custom Design</a>
+            <a class="nav-link" href="#story" data-i18n="navStory">Our Story</a>
+          </div>
+          <div class="nav-actions">
+            <div class="language-switch" role="group" aria-label="Choose language">
+              <button type="button" class="language-option is-selected" data-language="en" aria-pressed="true">EN</button>
+              <span aria-hidden="true"></span>
+              <button type="button" class="language-option" data-language="mr" aria-pressed="false">मराठी</button>
+            </div>
+            <a class="bag-link" href="cart.html" aria-label="Shopping bag, 0 items">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5.5 8.5h13l1 12h-15l1-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="bag-label" data-i18n="bag">Bag</span>
+              <span class="cart-count" aria-live="polite">0</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero-image" data-image-key="hero" role="img" aria-label="A portrait celebrating the richness of Indian fashion"></div>
+        <div class="hero-shade"></div>
+        <div class="ambient-orb orb-one"></div>
+        <div class="ambient-orb orb-two"></div>
+        <div class="hero-content page-width">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="heroEyebrow">CRAFTED TO BE YOURS</span></p>
+            <h1 id="hero-title" data-i18n="heroTitle">Elegance in<br><em>Every Thread.</em></h1>
+            <p class="hero-description" data-i18n="heroDescription">Discover exquisite blouse designs where timeless Indian craftsmanship meets contemporary elegance. Find your signature style or create a design that is uniquely yours.</p>
+            <div class="hero-actions">
+              <a class="button button-light" href="shop.html"><span data-i18n="explore">Explore Collection</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+              <a class="button button-outline" href="custom-design.html" data-i18n="designOwn">Design Your Own</a>
+            </div>
+            <div class="hero-note">
+              <span class="note-mark" aria-hidden="true">✳</span>
+              <span data-i18n="heroNote">Made with care. Worn with confidence.</span>
+            </div>
+          </div>
+          <div class="hero-caption glass-dark reveal">
+            <span class="caption-index">01 / 03</span>
+            <span class="caption-divider"></span>
+            <div>
+              <p class="caption-label" data-i18n="captionLabel">THE ART OF DETAIL</p>
+              <p class="caption-text" data-i18n="captionText">Tradition, tailored to you.</p>
+            </div>
+            <span class="caption-spark" aria-hidden="true">✦</span>
+          </div>
+        </div>
+        <a href="shop.html" class="scroll-cue" aria-label="Explore the collection">
+          <span data-i18n="scroll">SCROLL TO DISCOVER</span>
+          <span class="scroll-line" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <section class="intro-section section-space" id="collections">
+        <div class="page-width">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-i18n="collectionEyebrow">CURATED FOR YOUR MOMENTS</span></p>
+              <h2 data-i18n="collectionTitle">Find the feeling.<br><em>Wear the story.</em></h2>
+            </div>
+            <div class="collection-heading-aside">
+              <p class="section-intro" data-i18n="collectionIntro">From the first fitting to the final stitch, discover pieces made to celebrate your own kind of beautiful.</p>
+              <div class="collection-heading-note">
+                <svg class="collection-note-mark" aria-hidden="true" viewBox="0 0 64 64" fill="none">
+                  <circle cx="32" cy="32" r="27" stroke="currentColor" stroke-width=".8"/>
+                  <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width=".6" stroke-dasharray="1 3"/>
+                  <path d="M32 17c3 7 3 10 0 15-3-5-3-8 0-15Zm15 15c-7 3-10 3-15 0 5-3 8-3 15 0ZM32 47c-3-7-3-10 0-15 3 5 3 8 0 15ZM17 32c7-3 10-3 15 0-5 3-8 3-15 0Z" stroke="currentColor" stroke-width="1"/>
+                  <circle cx="32" cy="32" r="3" fill="currentColor"/>
+                </svg>
+                <span class="collection-note-copy">
+                  <span class="collection-note-label" data-i18n="collectionNoteLabel">THE NK DESIGN EDIT</span>
+                  <strong data-i18n="collectionNote">Thoughtfully chosen, beautifully yours.</strong>
+                </span>
+              </div>
+              <a class="collection-heading-feature" href="shop.html?category=Silk%20Sarees" aria-label="Explore Silk Sarees">
+                <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&amp;fit=crop&amp;w=500&amp;q=85" alt="" loading="lazy">
+                <span class="collection-heading-feature-shade"></span>
+                <span class="collection-heading-feature-number">01 <i>/</i> 03</span>
+                <span class="collection-heading-feature-copy">
+                  <span data-i18n="collectionFeatureKicker">EXPLORE THE EDIT</span>
+                  <strong data-i18n="collectionFeatureTitle">Silk Sarees</strong>
+                </span>
+                <span class="collection-heading-feature-arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="collection-grid" id="collection-grid" aria-label="Blouse collections">
+            <a class="collection-card collection-card-tall reveal" href="shop.html" data-image-key="bridal">
+              <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=85" alt="Bridal-inspired Indian occasion wear in rich color" loading="lazy">
+              <span class="collection-number">01</span>
+              <span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">FOR YOUR BIG MOMENTS</span><strong data-i18n="bridalTitle">Bridal &amp; Festive</strong><span data-i18n="bridalDescription">Made for memories that last.</span></span>
+                <span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+            <a class="collection-card reveal" href="shop.html" data-image-key="traditional">
+              <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1000&q=85" alt="Detailed traditional Indian attire with a refined silhouette" loading="lazy">
+              <span class="collection-number">02</span><span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">ROOTED IN HERITAGE</span><strong data-i18n="traditionalTitle">Traditional Elegance</strong><span data-i18n="traditionalDescription">A timeless touch of tradition.</span></span><span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+            <a class="collection-card reveal" href="shop.html" data-image-key="designer">
+              <img src="https://images.unsplash.com/photo-1610030469668-8e9f641aaf44?auto=format&fit=crop&w=1000&q=85" alt="Modern designer fashion with sculptural styling" loading="lazy">
+              <span class="collection-number">03</span><span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">A SIGNATURE SILHOUETTE</span><strong data-i18n="designerTitle">Designer Blouses</strong><span data-i18n="designerDescription">Unexpected details, made to stand out.</span></span><span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+            <a class="collection-card reveal" href="shop.html" data-image-key="party">
+              <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e8?auto=format&fit=crop&w=1000&q=85" alt="Elegant evening fashion for a special celebration" loading="lazy">
+              <span class="collection-number">04</span><span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">THE NIGHT IS YOURS</span><strong data-i18n="partyTitle">Party Wear</strong><span data-i18n="partyDescription">A little shimmer, a lot of you.</span></span><span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+            <a class="collection-card collection-card-wide reveal" href="shop.html" data-image-key="custom">
+              <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1400&q=85" alt="Artisan-inspired clothing detail, ready to be personalized" loading="lazy">
+              <span class="collection-number">05</span><span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">MADE AROUND YOU</span><strong data-i18n="customTitle">Custom Creations</strong><span data-i18n="customDescription">Your vision, brought beautifully to life.</span></span><span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+            <a class="collection-card reveal" href="shop.html" data-image-key="latest">
+              <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1000&q=85" alt="A contemporary fashion look from the latest collection" loading="lazy">
+              <span class="collection-number">06</span><span class="collection-overlay"></span>
+              <span class="collection-caption glass-card">
+                <span class="collection-copy"><span class="collection-kicker" data-i18n="collectionKicker">JUST ARRIVED</span><strong data-i18n="latestTitle">Latest Collection</strong><span data-i18n="latestDescription">New-season details to fall for.</span></span><span class="collection-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="custom-section" id="custom">
+        <div class="custom-image" data-image-key="customBackdrop" role="img" aria-label="An intimate detail of Indian craft and fabric"></div>
+        <div class="custom-wash"></div>
+        <div class="page-width custom-layout">
+          <div class="custom-card glass-dark reveal">
+            <p class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="customEyebrow">YOUR DESIGN, YOUR STORY</span></p>
+            <h2 data-i18n="customHeadline">A perfect fit<br>for <em>your imagination.</em></h2>
+            <p data-i18n="customBody">Choose your fabric, shape, and finishing touches. Our artisans will bring your one-of-a-kind blouse to life, stitch by thoughtful stitch.</p>
+            <a href="custom-design.html" class="button button-light"><span data-i18n="startDesign">Start your design</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+          </div>
+          <div class="custom-aside reveal">
+            <span class="custom-aside-mark" aria-hidden="true">N</span>
+            <p data-i18n="customAside">Thoughtfully made for the way you want to feel.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-section section-space" id="story">
+        <div class="page-width story-layout">
+          <div class="story-art reveal">
+            <div class="story-image">
+              <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=85" alt="Indian fashion, celebrating craftsmanship and confident personal style" loading="lazy" data-image-key="story">
+            </div>
+            <div class="story-seal glass-card"><span>MADE<br>WITH<br><em>LOVE</em></span><span class="seal-star" aria-hidden="true">✳</span></div>
+          </div>
+          <div class="story-copy reveal">
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-i18n="storyEyebrow">A LITTLE ABOUT US</span></p>
+            <h2 data-i18n="storyTitle">The beauty is in<br><em>how it feels.</em></h2>
+            <p data-i18n="storyBody">At NK Design, we believe what you wear should feel as special as the moments you wear it for. We bring a love of Indian craft together with considered design and a personal touch in every stitch.</p>
+            <a class="text-link" href="#custom"><span data-i18n="meetUs">Explore our craft</span><span aria-hidden="true">↗</span></a>
+            <div class="story-signature">NK <span>Design</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing-section">
+        <div class="closing-glow"></div>
+        <div class="page-width closing-content reveal">
+          <p class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="closingEyebrow">SOMETHING BEAUTIFUL STARTS HERE</span></p>
+          <h2 data-i18n="closingTitle">Your next favourite<br><em>begins with a thread.</em></h2>
+          <a class="button button-light" href="shop.html"><span data-i18n="browseCollections">Browse collections</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-top">
+        <a class="brand footer-brand" href="#home" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <p data-i18n="footerNote">Crafted with intention. Worn with joy.</p>
+        <div class="footer-links">
+          <a href="shop.html" data-i18n="browseCollections">Browse collections</a>
+          <a href="contact.html" data-i18n="contactLink">Contact us</a>
+        </div>
+      </div>
+      <div class="page-width footer-bottom">
+        <span>© <span id="year"></span> NK Design. <span data-i18n="rights">All rights reserved.</span></span>
+        <a href="#home" data-i18n="backTop">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

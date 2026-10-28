@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Explore NK Design's blouse collection. Discover elegant Indian craftsmanship and designs made for your moments.">
+    <title>Shop the Collection — NK Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="catalog.js" defer></script>
+  </head>
+  <body class="shop-page">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell glass-card" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+        <div class="nav-content" id="primary-nav">
+          <div class="nav-links">
+            <a class="nav-link" href="index.html" data-i18n="navHome">Home</a>
+            <a class="nav-link is-active" href="shop.html" data-i18n="navCollections">Collections</a>
+            <a class="nav-link" href="custom-design.html" data-i18n="navCustom">Custom Design</a>
+            <a class="nav-link" href="index.html#story" data-i18n="navStory">Our Story</a>
+          </div>
+          <div class="nav-actions">
+            <div class="language-switch" role="group" aria-label="Choose language">
+              <button type="button" class="language-option is-selected" data-language="en" aria-pressed="true">EN</button>
+              <span aria-hidden="true"></span>
+              <button type="button" class="language-option" data-language="mr" aria-pressed="false">मराठी</button>
+            </div>
+            <a class="bag-link" href="cart.html" aria-label="Shopping bag, 0 items">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5.5 8.5h13l1 12h-15l1-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="bag-label" data-i18n="bag">Bag</span>
+              <span class="cart-count" aria-live="polite">0</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="shop-main">
+      <section class="shop-hero">
+        <div class="page-width shop-hero-inner">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-shop-i18n="eyebrow">THE NK DESIGN COLLECTION</span></p>
+          <h1 data-shop-i18n="title">Made for your<br><em>kind of beautiful.</em></h1>
+          <p data-shop-i18n="intro">Discover considered silhouettes, thoughtful details, and handcrafted blouses made for every version of you.</p>
+          <a href="#products" class="shop-scroll-link"><span data-shop-i18n="discover">DISCOVER THE COLLECTION</span><span aria-hidden="true">↓</span></a>
+          <span class="shop-hero-ornament" aria-hidden="true">✳</span>
+        </div>
+      </section>
+
+      <section class="shop-catalog page-width" id="products" aria-labelledby="catalog-title">
+        <div class="catalog-heading">
+          <div>
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-shop-i18n="curated">THOUGHTFULLY CURATED</span></p>
+            <h2 id="catalog-title" data-shop-i18n="catalogTitle">Find your <em>favourite.</em></h2>
+          </div>
+          <p class="catalog-count" id="catalog-count" aria-live="polite"></p>
+        </div>
+
+        <div class="catalog-toolbar">
+          <div class="catalog-search-wrap">
+            <label class="visually-hidden" for="catalog-search" data-shop-i18n="searchLabel">Search blouses</label>
+            <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4.4 4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input id="catalog-search" class="catalog-search" type="search" autocomplete="off" data-shop-placeholder="searchPlaceholder" placeholder="Search styles, fabrics, occasions">
+            <kbd class="search-shortcut" aria-hidden="true">⌘ K</kbd>
+          </div>
+          <button class="filter-toggle" type="button" id="filter-toggle" aria-expanded="false" aria-controls="category-filters">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10m-7 5h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span data-shop-i18n="filter">Filter</span>
+          </button>
+          <label class="sort-wrap" for="catalog-sort">
+            <span data-shop-i18n="sortBy">Sort by</span>
+            <select id="catalog-sort" class="catalog-sort">
+              <option value="featured" data-shop-i18n="sortFeatured">Featured</option>
+              <option value="price-asc" data-shop-i18n="sortPriceLow">Price: low to high</option>
+              <option value="price-desc" data-shop-i18n="sortPriceHigh">Price: high to low</option>
+              <option value="name" data-shop-i18n="sortName">Name</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="catalog-filters" id="category-filters" aria-label="Filter by category"></div>
+
+        <div class="catalog-status" id="catalog-status" role="status" aria-live="polite">
+          <span class="loading-mark" aria-hidden="true"></span>
+          <span data-shop-i18n="loading">Discovering your collection…</span>
+        </div>
+        <div class="catalog-grid" id="catalog-grid" aria-live="polite"></div>
+        <button class="load-retry button button-outline-dark" id="retry-load" type="button" hidden data-shop-i18n="retry">Try again</button>
+      </section>
+
+      <section class="shop-personalize">
+        <div class="page-width personalize-inner">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span><span data-shop-i18n="personalizeEyebrow">MADE FOR YOU, ALWAYS</span></p>
+            <h2 data-shop-i18n="personalizeTitle">Love a little<br><em>personal touch?</em></h2>
+            <p data-shop-i18n="personalizeBody">Create something entirely your own with a custom blouse, made thoughtfully to your measurements and vision.</p>
+            <a href="custom-design.html" class="button button-light"><span data-shop-i18n="personalizeCta">Explore custom design</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+          </div>
+          <span class="personalize-mark" aria-hidden="true">N<span>K</span></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-top">
+        <a class="brand footer-brand" href="index.html" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <p data-i18n="footerNote">Crafted with intention. Worn with joy.</p>
+        <div class="footer-links">
+          <a href="shop.html" data-i18n="browseCollections">Browse collections</a>
+          <a href="contact.html" data-i18n="contactLink">Contact us</a>
+        </div>
+      </div>
+      <div class="page-width footer-bottom">
+        <span>© <span id="year"></span> NK Design. <span data-i18n="rights">All rights reserved.</span></span>
+        <a href="#main" data-i18n="backTop">Back to top ↑</a>
+      </div>
+    </footer>
+
+    <dialog class="quick-view-dialog" id="quick-view" aria-labelledby="quick-view-title">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close quick view" data-shop-aria="close">×</button>
+      </form>
+      <div class="quick-view-content" id="quick-view-content"></div>
+    </dialog>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

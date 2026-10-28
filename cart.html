@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Review your NK Design order and continue to secure checkout.">
+    <title>Your Bag — NK Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="cart.js" defer></script>
+  </head>
+  <body class="cart-page">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell glass-card" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+        <div class="nav-content" id="primary-nav">
+          <div class="nav-links">
+            <a class="nav-link" href="index.html" data-i18n="navHome">Home</a>
+            <a class="nav-link" href="shop.html" data-i18n="navCollections">Collections</a>
+            <a class="nav-link" href="custom-design.html" data-i18n="navCustom">Custom Design</a>
+            <a class="nav-link" href="index.html#story" data-i18n="navStory">Our Story</a>
+          </div>
+          <div class="nav-actions">
+            <div class="language-switch" role="group" aria-label="Choose language">
+              <button type="button" class="language-option is-selected" data-language="en" aria-pressed="true">EN</button>
+              <span aria-hidden="true"></span>
+              <button type="button" class="language-option" data-language="mr" aria-pressed="false">मराठी</button>
+            </div>
+            <a class="bag-link is-current" href="cart.html" aria-label="Shopping bag, 0 items" aria-current="page">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5.5 8.5h13l1 12h-15l1-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="bag-label" data-i18n="bag">Bag</span>
+              <span class="cart-count" aria-live="polite">0</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="cart-main">
+      <section class="cart-intro">
+        <div class="page-width cart-intro-inner">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-cart-i18n="eyebrow">A LITTLE SOMETHING LOVELY</span></p>
+          <h1 data-cart-i18n="title">Your bag, <em>your moment.</em></h1>
+          <div class="checkout-steps" aria-label="Checkout progress">
+            <span class="checkout-step is-active"><i>01</i><span data-cart-i18n="stepBag">Your bag</span></span>
+            <span class="checkout-step-rule"></span>
+            <span class="checkout-step" id="checkout-step-details"><i>02</i><span data-cart-i18n="stepDetails">Your details</span></span>
+            <span class="checkout-step-rule"></span>
+            <span class="checkout-step" id="checkout-step-confirm"><i>03</i><span data-cart-i18n="stepConfirm">Confirmation</span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="cart-content page-width" aria-label="Shopping cart and checkout">
+        <div class="cart-loading" id="cart-loading" role="status" data-cart-i18n="loading">Preparing your bag…</div>
+        <div class="cart-layout" id="cart-layout" hidden>
+          <div class="cart-main-column">
+            <div class="cart-panel glass-card">
+              <div class="cart-panel-heading">
+                <div>
+                  <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-cart-i18n="bagEyebrow">SELECTED WITH LOVE</span></p>
+                  <h2 data-cart-i18n="bagTitle">Your selection</h2>
+                </div>
+                <span class="cart-item-count" id="cart-item-count"></span>
+              </div>
+              <div class="cart-items" id="cart-items"></div>
+              <div class="cart-empty" id="cart-empty" hidden>
+                <span class="cart-empty-mark" aria-hidden="true">✳</span>
+                <h3 data-cart-i18n="emptyTitle">Your next favourite is waiting.</h3>
+                <p data-cart-i18n="emptyBody">Explore handcrafted pieces and add something lovely to your bag.</p>
+                <a class="button button-wine" href="shop.html"><span data-cart-i18n="shopCta">Explore the collection</span><span aria-hidden="true">↗</span></a>
+              </div>
+              <a class="continue-shopping" href="shop.html"><span aria-hidden="true">←</span><span data-cart-i18n="continueShopping">Continue shopping</span></a>
+            </div>
+
+            <section class="checkout-panel glass-card" id="checkout-panel" hidden aria-labelledby="checkout-title">
+              <div class="cart-panel-heading">
+                <div>
+                  <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-cart-i18n="detailsEyebrow">THE FINISHING TOUCHES</span></p>
+                  <h2 id="checkout-title" data-cart-i18n="checkoutTitle">Where should we send it?</h2>
+                </div>
+              </div>
+              <form id="checkout-form" novalidate>
+                <div class="checkout-fields">
+                  <label class="checkout-field"><span data-cart-i18n="nameLabel">Full name</span><input name="customerName" autocomplete="name" maxlength="100" required data-cart-placeholder="namePlaceholder" placeholder="Name"></label>
+                  <label class="checkout-field"><span data-cart-i18n="phoneLabel">Phone number</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" pattern="\+?[0-9\s().-]{7,24}" required data-cart-placeholder="phonePlaceholder" placeholder="+91"></label>
+                  <label class="checkout-field"><span data-cart-i18n="emailLabel">Email address</span><input name="email" type="email" autocomplete="email" maxlength="160" required data-cart-placeholder="emailPlaceholder" placeholder="you@example.com"></label>
+                  <label class="checkout-field checkout-field-wide"><span data-cart-i18n="addressLabel">Street address</span><input name="address" autocomplete="street-address" maxlength="240" required data-cart-placeholder="addressPlaceholder" placeholder="House, street and area"></label>
+                  <label class="checkout-field"><span data-cart-i18n="cityLabel">City</span><input name="city" autocomplete="address-level2" maxlength="100" required></label>
+                  <label class="checkout-field"><span data-cart-i18n="stateLabel">State</span><input name="state" autocomplete="address-level1" maxlength="100" required></label>
+                  <label class="checkout-field"><span data-cart-i18n="postalLabel">PIN code</span><input name="postalCode" autocomplete="postal-code" inputmode="numeric" maxlength="12" pattern="[0-9]{6}" required></label>
+                  <label class="checkout-field"><span data-cart-i18n="countryLabel">Country</span><input name="country" autocomplete="country-name" value="India" maxlength="80" required></label>
+                  <label class="checkout-field checkout-field-wide"><span data-cart-i18n="notesLabel">Delivery notes (optional)</span><textarea name="notes" rows="3" maxlength="500" data-cart-placeholder="notesPlaceholder" placeholder="Anything our delivery team should know?"></textarea></label>
+                </div>
+                <fieldset class="payment-methods">
+                  <legend data-cart-i18n="paymentLabel">Payment preference</legend>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="online" required><span class="payment-option-copy"><strong data-cart-i18n="onlinePayment">Online payment</strong><span data-cart-i18n="onlinePaymentInfo">Secure payment options shown at the next step</span></span><span class="payment-option-mark" aria-hidden="true"></span></label>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="cod"><span class="payment-option-copy"><strong data-cart-i18n="codPayment">Cash on delivery</strong><span data-cart-i18n="codPaymentInfo">Availability and any additional charges are confirmed before ordering</span></span><span class="payment-option-mark" aria-hidden="true"></span></label>
+                </fieldset>
+                <p class="secure-checkout-note"><span aria-hidden="true">♧</span><span data-cart-i18n="securityNote">Your order total, delivery options, stock and payment will be verified securely before your order is placed.</span></p>
+                <div class="checkout-error" id="checkout-error" role="alert" tabindex="-1" hidden></div>
+                <button class="button button-wine checkout-submit" type="submit"><span data-cart-i18n="placeOrder">Place order</span><span aria-hidden="true">↗</span></button>
+              </form>
+            </section>
+          </div>
+
+          <aside class="order-summary glass-card" aria-labelledby="summary-title">
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-cart-i18n="summaryEyebrow">A CLEAR VIEW</span></p>
+            <h2 id="summary-title" data-cart-i18n="summaryTitle">Order summary</h2>
+            <div class="summary-line"><span data-cart-i18n="subtotal">Subtotal</span><strong id="summary-subtotal">₹0</strong></div>
+            <div class="summary-line"><span data-cart-i18n="delivery">Delivery</span><span class="summary-muted" data-cart-i18n="deliveryNote">Confirmed at checkout</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-total"><span data-cart-i18n="estimatedTotal">Estimated total</span><strong id="summary-total">₹0</strong></div>
+            <p class="summary-tax-note" data-cart-i18n="taxNote">Final delivery charges, taxes and payable total are confirmed securely before you place the order.</p>
+            <button class="button button-wine checkout-action" id="checkout-action" type="button" disabled><span id="checkout-action-label" data-cart-i18n="proceed">Continue to checkout</span><span aria-hidden="true">→</span></button>
+            <p class="summary-error" id="summary-error" role="status" tabindex="-1" hidden></p>
+            <div class="trust-note"><span aria-hidden="true">✳</span><span data-cart-i18n="trustNote">Thoughtfully made. Carefully delivered.</span></div>
+            <div class="payment-trust"><span data-cart-i18n="securePayment">Secure payment</span><span class="trust-dot"></span><span data-cart-i18n="verifiedStock">Stock verified at order</span></div>
+          </aside>
+        </div>
+
+        <section class="order-success glass-card" id="order-success" role="status" aria-live="polite" tabindex="-1" hidden>
+          <span class="success-mark" aria-hidden="true">✳</span>
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-cart-i18n="successEyebrow">A LOVELY CHOICE</span></p>
+          <h2 data-cart-i18n="successTitle">Thank you for your order.</h2>
+          <p data-cart-i18n="successBody">Your order has been confirmed. We’ll be in touch with the details.</p>
+          <p class="order-reference" id="order-reference"></p>
+          <a href="shop.html" class="button button-wine"><span data-cart-i18n="shopMore">Continue exploring</span><span aria-hidden="true">↗</span></a>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-top">
+        <a class="brand footer-brand" href="index.html" aria-label="NK Design home"><img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer"></a>
+        <p data-i18n="footerNote">Crafted with intention. Worn with joy.</p>
+        <div class="footer-links">
+          <a href="shop.html" data-i18n="browseCollections">Browse collections</a>
+          <a href="contact.html" data-i18n="contactLink">Contact us</a>
+        </div>
+      </div>
+      <div class="page-width footer-bottom">
+        <span>© <span id="year"></span> NK Design. <span data-i18n="rights">All rights reserved.</span></span>
+        <a href="#main" data-i18n="backTop">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

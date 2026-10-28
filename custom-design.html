@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Create a custom blouse with NK Design. Choose your fabric, style, and fit in a guided design experience.">
+    <title>Custom Blouse Studio — NK Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="custom-studio.js" defer></script>
+  </head>
+  <body class="studio-page">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell glass-card" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="NK Design home">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+        <div class="nav-content" id="primary-nav">
+          <div class="nav-links">
+            <a class="nav-link" href="index.html" data-i18n="navHome">Home</a>
+            <a class="nav-link" href="shop.html" data-i18n="navCollections">Collections</a>
+            <a class="nav-link is-active" href="custom-design.html" data-i18n="navCustom">Custom Design</a>
+            <a class="nav-link" href="index.html#story" data-i18n="navStory">Our Story</a>
+          </div>
+          <div class="nav-actions">
+            <div class="language-switch" role="group" aria-label="Choose language">
+              <button type="button" class="language-option is-selected" data-language="en" aria-pressed="true">EN</button>
+              <span aria-hidden="true"></span>
+              <button type="button" class="language-option" data-language="mr" aria-pressed="false">मराठी</button>
+            </div>
+            <a class="bag-link" href="cart.html" aria-label="Shopping bag, 0 items">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5.5 8.5h13l1 12h-15l1-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="bag-label" data-i18n="bag">Bag</span>
+              <span class="cart-count" aria-live="polite">0</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="studio-main" id="main">
+      <section class="studio-intro">
+        <div class="page-width studio-intro-inner">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-studio-i18n="eyebrow">A STUDIO MADE FOR YOU</span></p>
+          <h1 data-studio-i18n="title">Your vision.<br><em>Beautifully tailored.</em></h1>
+          <p data-studio-i18n="intro">A few thoughtful choices are all it takes to begin. Tell us what you imagine; our artisans will take it from there.</p>
+          <div class="studio-promises">
+            <span><i aria-hidden="true">✳</i><span data-studio-i18n="promisePersonal">Personal, made-to-measure service</span></span>
+            <span><i aria-hidden="true">✳</i><span data-studio-i18n="promiseCraft">Thoughtful artisan craftsmanship</span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="studio-builder page-width" aria-labelledby="studio-form-title">
+        <div class="studio-card glass-card">
+          <div class="studio-topline">
+            <div>
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-studio-i18n="formEyebrow">LET'S CREATE SOMETHING LOVELY</span></p>
+              <h2 id="studio-form-title" data-studio-i18n="formTitle">Your custom <em>blouse.</em></h2>
+            </div>
+            <span class="studio-estimate" data-studio-i18n="timeEstimate">About 4 minutes</span>
+          </div>
+
+          <div class="step-progress" aria-label="Design form progress">
+            <div class="step-progress-track"><span class="step-progress-fill" id="progress-fill"></span></div>
+            <ol class="step-indicators" id="step-indicators">
+              <li><span>01</span><span data-studio-i18n="stepType">Blouse</span></li>
+              <li><span>02</span><span data-studio-i18n="stepFabric">Fabric</span></li>
+              <li><span>03</span><span data-studio-i18n="stepStyle">Style</span></li>
+              <li><span>04</span><span data-studio-i18n="stepFit">Fit</span></li>
+              <li><span>05</span><span data-studio-i18n="stepDetails">Details</span></li>
+              <li><span>06</span><span data-studio-i18n="stepReview">Review</span></li>
+            </ol>
+          </div>
+
+          <form id="design-form" novalidate>
+            <fieldset class="studio-step" data-step="0" aria-labelledby="step-heading-0">
+              <legend class="visually-hidden" data-studio-i18n="stepType">Blouse</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 01</span>
+                <h3 id="step-heading-0" data-studio-i18n="typeHeading">What are we creating?</h3>
+                <p data-studio-i18n="typeDescription">Choose the silhouette that feels most like you.</p>
+              </div>
+              <div class="choice-grid type-choices">
+                <label class="choice-card">
+                  <input type="radio" name="blouseType" value="Classic blouse" required>
+                  <span class="choice-icon" aria-hidden="true">✳</span><strong data-studio-i18n="typeClassic">Classic blouse</strong><span data-studio-i18n="typeClassicInfo">The timeless, versatile favourite</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="blouseType" value="Saree blouse">
+                  <span class="choice-icon" aria-hidden="true">✳</span><strong data-studio-i18n="typeSaree">Saree blouse</strong><span data-studio-i18n="typeSareeInfo">Designed to complement your drape</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="blouseType" value="Bridal blouse">
+                  <span class="choice-icon" aria-hidden="true">✳</span><strong data-studio-i18n="typeBridal">Bridal blouse</strong><span data-studio-i18n="typeBridalInfo">A little extra magic for your day</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="blouseType" value="Contemporary blouse">
+                  <span class="choice-icon" aria-hidden="true">✳</span><strong data-studio-i18n="typeContemporary">Contemporary blouse</strong><span data-studio-i18n="typeContemporaryInfo">A fresh take on a favourite</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="blouseType" value="Other">
+                  <span class="choice-icon" aria-hidden="true">✳</span><strong data-studio-i18n="typeOther">Something else</strong><span data-studio-i18n="typeOtherInfo">Tell us about your idea</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="studio-step" data-step="1" aria-labelledby="step-heading-1" hidden>
+              <legend class="visually-hidden" data-studio-i18n="stepFabric">Fabric</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 02</span>
+                <h3 id="step-heading-1" data-studio-i18n="fabricHeading">Let's choose your materials.</h3>
+                <p data-studio-i18n="fabricDescription">Share what you have in mind. We can help you find the right fabric, too.</p>
+              </div>
+              <div class="form-grid">
+                <label class="form-field"><span data-studio-i18n="fabricLabel">Fabric preference</span>
+                  <select name="fabric" required>
+                    <option value="" data-studio-i18n="selectPlaceholder">Choose an option</option>
+                    <option value="Silk" data-studio-i18n="fabricSilk">Silk</option>
+                    <option value="Cotton" data-studio-i18n="fabricCotton">Cotton</option>
+                    <option value="Velvet" data-studio-i18n="fabricVelvet">Velvet</option>
+                    <option value="Georgette" data-studio-i18n="fabricGeorgette">Georgette</option>
+                    <option value="Raw silk" data-studio-i18n="fabricRawSilk">Raw silk</option>
+                    <option value="Need advice" data-studio-i18n="fabricAdvice">I'd love your advice</option>
+                    <option value="Other" data-studio-i18n="otherOption">Other</option>
+                  </select>
+                </label>
+                <label class="form-field"><span data-studio-i18n="colorLabel">Preferred colour</span>
+                  <input name="color" type="text" maxlength="80" required data-studio-placeholder="colorPlaceholder" placeholder="e.g. deep plum, warm ivory">
+                </label>
+                <label class="form-field form-field-wide"><span data-studio-i18n="embellishmentLabel">Embellishment or finish</span>
+                  <select name="embellishment">
+                    <option value="" data-studio-i18n="noPreference">No preference</option>
+                    <option value="Hand embroidery" data-studio-i18n="embroidery">Hand embroidery</option>
+                    <option value="Beadwork" data-studio-i18n="beadwork">Beadwork</option>
+                    <option value="Mirror work" data-studio-i18n="mirrorwork">Mirror work</option>
+                    <option value="Lace details" data-studio-i18n="lace">Lace details</option>
+                    <option value="Minimal finish" data-studio-i18n="minimal">Minimal finish</option>
+                    <option value="Other" data-studio-i18n="otherOption">Other</option>
+                  </select>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="studio-step" data-step="2" aria-labelledby="step-heading-2" hidden>
+              <legend class="visually-hidden" data-studio-i18n="stepStyle">Style</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 03</span>
+                <h3 id="step-heading-2" data-studio-i18n="styleHeading">The details make it yours.</h3>
+                <p data-studio-i18n="styleDescription">Pick the neck and sleeves you love. You can add more notes next.</p>
+              </div>
+              <div class="form-grid">
+                <label class="form-field"><span data-studio-i18n="neckLabel">Neck style</span>
+                  <select name="neckStyle" required>
+                    <option value="" data-studio-i18n="selectPlaceholder">Choose an option</option>
+                    <option value="Round" data-studio-i18n="neckRound">Round</option>
+                    <option value="Sweetheart" data-studio-i18n="neckSweetheart">Sweetheart</option>
+                    <option value="Boat" data-studio-i18n="neckBoat">Boat</option>
+                    <option value="V-neck" data-studio-i18n="neckV">V-neck</option>
+                    <option value="High neck" data-studio-i18n="neckHigh">High neck</option>
+                    <option value="Square" data-studio-i18n="neckSquare">Square</option>
+                    <option value="Back detail" data-studio-i18n="neckBack">Special back detail</option>
+                    <option value="Need advice" data-studio-i18n="fabricAdvice">I'd love your advice</option>
+                  </select>
+                </label>
+                <label class="form-field"><span data-studio-i18n="sleeveLabel">Sleeve style</span>
+                  <select name="sleeveStyle" required>
+                    <option value="" data-studio-i18n="selectPlaceholder">Choose an option</option>
+                    <option value="Sleeveless" data-studio-i18n="sleeveNone">Sleeveless</option>
+                    <option value="Cap sleeve" data-studio-i18n="sleeveCap">Cap sleeve</option>
+                    <option value="Short sleeve" data-studio-i18n="sleeveShort">Short sleeve</option>
+                    <option value="Elbow length" data-studio-i18n="sleeveElbow">Elbow length</option>
+                    <option value="Three-quarter sleeve" data-studio-i18n="sleeveThreeQuarter">Three-quarter</option>
+                    <option value="Full sleeve" data-studio-i18n="sleeveFull">Full sleeve</option>
+                    <option value="Need advice" data-studio-i18n="fabricAdvice">I'd love your advice</option>
+                  </select>
+                </label>
+                <label class="form-field form-field-wide"><span data-studio-i18n="occasionLabel">Occasion (optional)</span>
+                  <input name="occasion" type="text" maxlength="120" data-studio-placeholder="occasionPlaceholder" placeholder="e.g. a wedding, a festive evening">
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="studio-step" data-step="3" aria-labelledby="step-heading-3" hidden>
+              <legend class="visually-hidden" data-studio-i18n="stepFit">Fit</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 04</span>
+                <h3 id="step-heading-3" data-studio-i18n="fitHeading">A lovely fit starts with you.</h3>
+                <p data-studio-i18n="fitDescription">Measurements are optional for now. We'll confirm the details with you before stitching.</p>
+              </div>
+              <div class="measurement-note"><span aria-hidden="true">✳</span><span data-studio-i18n="measurementNote">Enter measurements in centimetres. Leave any field blank if you'd prefer a fitting consultation.</span></div>
+              <div class="form-grid measurement-grid">
+                <label class="form-field"><span data-studio-i18n="bustLabel">Bust (cm)</span><input name="measurements[bust]" type="number" min="40" max="180" step="0.5" inputmode="decimal" placeholder="—"></label>
+                <label class="form-field"><span data-studio-i18n="underBustLabel">Under bust (cm)</span><input name="measurements[underBust]" type="number" min="35" max="160" step="0.5" inputmode="decimal" placeholder="—"></label>
+                <label class="form-field"><span data-studio-i18n="shoulderLabel">Shoulder (cm)</span><input name="measurements[shoulder]" type="number" min="25" max="65" step="0.5" inputmode="decimal" placeholder="—"></label>
+                <label class="form-field"><span data-studio-i18n="blouseLengthLabel">Blouse length (cm)</span><input name="measurements[length]" type="number" min="20" max="80" step="0.5" inputmode="decimal" placeholder="—"></label>
+                <label class="form-field"><span data-studio-i18n="sleeveLengthLabel">Sleeve length (cm)</span><input name="measurements[sleeveLength]" type="number" min="0" max="80" step="0.5" inputmode="decimal" placeholder="—"></label>
+                <label class="form-field"><span data-studio-i18n="budgetLabel">Budget (INR, optional)</span><input name="budget" type="number" min="0" max="1000000" step="500" inputmode="numeric" placeholder="₹"></label>
+                <label class="form-field"><span data-studio-i18n="nameLabel">Your name</span><input name="customerName" type="text" autocomplete="name" maxlength="100" required data-studio-placeholder="namePlaceholder" placeholder="Name"></label>
+                <label class="form-field"><span data-studio-i18n="phoneLabel">Phone number</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" pattern="\+?[0-9\s().-]{7,24}" required data-studio-placeholder="phonePlaceholder" placeholder="+91"></label>
+                <label class="form-field form-field-wide"><span data-studio-i18n="emailLabel">Email address (optional)</span><input name="email" type="email" autocomplete="email" maxlength="160" data-studio-placeholder="emailPlaceholder" placeholder="you@example.com"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="studio-step" data-step="4" aria-labelledby="step-heading-4" hidden>
+              <legend class="visually-hidden" data-studio-i18n="stepDetails">Details</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 05</span>
+                <h3 id="step-heading-4" data-studio-i18n="detailsHeading">Bring your inspiration along.</h3>
+                <p data-studio-i18n="detailsDescription">A reference photo helps us understand the feeling you're after. It's entirely optional.</p>
+              </div>
+              <label class="upload-panel" for="reference-images">
+                <input id="reference-images" name="referenceImages" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                <span class="upload-icon" aria-hidden="true">＋</span>
+                <strong data-studio-i18n="uploadHeading">Add reference images</strong>
+                <span data-studio-i18n="uploadDescription">JPG, PNG, or WebP · up to 5 images · 5 MB each</span>
+                <span class="upload-button" data-studio-i18n="browseFiles">Choose images</span>
+              </label>
+              <div class="upload-error" id="upload-error" role="alert" hidden></div>
+              <div class="image-previews" id="image-previews"></div>
+              <label class="form-field instructions-field"><span data-studio-i18n="instructionsLabel">Anything else you'd like us to know?</span>
+                <textarea name="instructions" rows="5" maxlength="2000" data-studio-placeholder="instructionsPlaceholder" placeholder="Fit preferences, a detail you love, a question for our team…"></textarea>
+              </label>
+            </fieldset>
+
+            <fieldset class="studio-step" data-step="5" aria-labelledby="step-heading-5" hidden>
+              <legend class="visually-hidden" data-studio-i18n="stepReview">Review</legend>
+              <div class="step-heading">
+                <span class="step-kicker" data-studio-i18n="stepLabel">STEP 06</span>
+                <h3 id="step-heading-5" data-studio-i18n="reviewHeading">Let's make sure it feels right.</h3>
+                <p data-studio-i18n="reviewDescription">Take a moment to look over your design notes before sending them our way.</p>
+              </div>
+              <div class="review-list" id="review-list"></div>
+              <label class="consent-field"><input type="checkbox" name="contactConsent" required><span data-studio-i18n="consentLabel">NK Design may contact me about this custom blouse enquiry.</span></label>
+            </fieldset>
+
+            <div class="form-error" id="form-error" role="alert" tabindex="-1" hidden></div>
+            <div class="studio-form-actions">
+              <button class="studio-back" id="step-back" type="button" hidden><span aria-hidden="true">←</span><span data-studio-i18n="back">Back</span></button>
+              <span class="step-count" id="step-count" aria-live="polite"></span>
+              <button class="button button-wine studio-next" id="step-next" type="button"><span data-studio-i18n="continue">Continue</span><span aria-hidden="true">→</span></button>
+              <button class="button button-wine studio-submit" id="step-submit" type="submit" hidden><span data-studio-i18n="submit">Send my design enquiry</span><span aria-hidden="true">↗</span></button>
+            </div>
+          </form>
+        </div>
+
+        <section class="studio-success glass-card" id="studio-success" tabindex="-1" role="status" aria-live="polite" hidden>
+          <span class="success-mark" aria-hidden="true">✳</span>
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-studio-i18n="successEyebrow">YOUR IDEA IS ON ITS WAY</span></p>
+          <h2 data-studio-i18n="successTitle">A lovely beginning.</h2>
+          <p data-studio-i18n="successBody">Your design enquiry has been sent to our team. We'll be in touch to talk through the details.</p>
+          <a class="button button-wine success-whatsapp" id="success-whatsapp" hidden target="_blank" rel="noopener noreferrer"><span data-studio-i18n="whatsappFollowUp">Continue on WhatsApp</span><span aria-hidden="true">↗</span></a>
+          <a href="shop.html" class="success-shop-link" data-studio-i18n="backToShop">Explore the collection</a>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-top">
+        <a class="brand footer-brand" href="index.html" aria-label="NK Design home"><img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer"></a>
+        <p data-i18n="footerNote">Crafted with intention. Worn with joy.</p>
+        <div class="footer-links">
+          <a href="shop.html" data-i18n="browseCollections">Browse collections</a>
+          <a href="contact.html" data-i18n="contactLink">Contact us</a>
+        </div>
+      </div>
+      <div class="page-width footer-bottom">
+        <span>© <span id="year"></span> NK Design. <span data-i18n="rights">All rights reserved.</span></span>
+        <a href="#main" data-i18n="backTop">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

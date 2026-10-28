@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Sign in or create your NK Design account.">
+    <title>Welcome — NK Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="login.js" defer></script>
+  </head>
+  <body class="login-page">
+    <main class="login-layout">
+      <section class="login-story" aria-label="NK Design">
+        <div class="login-slides" aria-hidden="true">
+          <div class="login-slide is-active"><img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=88" alt=""></div>
+          <div class="login-slide"><img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1800&q=88" alt=""></div>
+          <div class="login-slide"><img src="https://images.unsplash.com/photo-1610030469668-8e9f641aaf44?auto=format&fit=crop&w=1800&q=88" alt=""></div>
+        </div>
+        <div class="login-story-shade" aria-hidden="true"></div>
+        <a class="brand login-brand" href="/login.html" aria-label="NK Design">
+          <img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer">
+        </a>
+        <div class="login-story-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span><span id="login-slide-kicker">THE ART OF DETAIL</span></p>
+          <h1 id="login-slide-title">Elegance in<br><em>every thread.</em></h1>
+          <p id="login-slide-description">Discover considered silhouettes, thoughtful details, and handcrafted blouses made for every version of you.</p>
+          <div class="login-slide-controls" aria-label="Collection stories">
+            <button type="button" class="login-slide-arrow" id="login-slide-previous" aria-label="Previous story">←</button>
+            <div class="login-slide-dots">
+              <button type="button" class="login-slide-dot is-active" data-slide="0" aria-label="Show story 1" aria-current="true"></button>
+              <button type="button" class="login-slide-dot" data-slide="1" aria-label="Show story 2" aria-current="false"></button>
+              <button type="button" class="login-slide-dot" data-slide="2" aria-label="Show story 3" aria-current="false"></button>
+            </div>
+            <span class="login-slide-count" id="login-slide-count">01 <i>/</i> 03</span>
+            <button type="button" class="login-slide-arrow" id="login-slide-next" aria-label="Next story">→</button>
+          </div>
+        </div>
+        <span class="login-story-mark" aria-hidden="true">NK</span>
+        <span class="login-story-footer">CRAFTED WITH INTENTION · WORN WITH JOY</span>
+      </section>
+
+      <section class="login-panel-wrap">
+        <div class="login-panel glass-card">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span>YOUR NK DESIGN ACCOUNT</p>
+          <h2 id="login-title">Welcome back.</h2>
+          <p class="login-intro" id="login-intro">Sign in to continue to your collection.</p>
+
+          <div class="login-tabs" role="tablist" aria-label="Account access">
+            <button class="login-tab is-selected" id="signin-tab" type="button" role="tab" aria-selected="true">Sign in</button>
+            <button class="login-tab" id="register-tab" type="button" role="tab" aria-selected="false">Create account</button>
+          </div>
+
+          <form id="account-form" class="login-form" novalidate>
+            <label class="login-field" id="name-field" hidden>
+              <span>Your name</span>
+              <input name="name" type="text" autocomplete="name" maxlength="100">
+            </label>
+            <label class="login-field">
+              <span>Email address</span>
+              <input name="email" type="email" autocomplete="email" required maxlength="254">
+            </label>
+            <label class="login-field">
+              <span>Password</span>
+              <span class="login-password-wrap">
+                <input name="password" type="password" autocomplete="current-password" required minlength="12" maxlength="1024">
+                <button class="login-password-toggle" id="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+              </span>
+              <small id="password-hint">Use your account password.</small>
+            </label>
+            <p class="login-error" id="account-error" role="alert" hidden></p>
+            <button class="button button-wine login-submit" id="account-submit" type="submit">
+              <span>Sign in</span><span aria-hidden="true">↗</span>
+            </button>
+          </form>
+
+          <p class="login-secure-note"><span aria-hidden="true">✳</span> Your account is private and securely protected.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

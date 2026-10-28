@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9f4">
+    <meta name="description" content="Get in touch with NK Design about custom blouses, orders, or your next special occasion.">
+    <title>Contact NK Design — We'd Love to Hear from You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="contact.js" defer></script>
+  </head>
+  <body class="contact-page">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav-shell glass-card" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="NK Design home"><img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer"></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+        <div class="nav-content" id="primary-nav">
+          <div class="nav-links">
+            <a class="nav-link" href="index.html" data-i18n="navHome">Home</a>
+            <a class="nav-link" href="shop.html" data-i18n="navCollections">Collections</a>
+            <a class="nav-link" href="custom-design.html" data-i18n="navCustom">Custom Design</a>
+            <a class="nav-link" href="index.html#story" data-i18n="navStory">Our Story</a>
+          </div>
+          <div class="nav-actions">
+            <div class="language-switch" role="group" aria-label="Choose language">
+              <button type="button" class="language-option is-selected" data-language="en" aria-pressed="true">EN</button>
+              <span aria-hidden="true"></span>
+              <button type="button" class="language-option" data-language="mr" aria-pressed="false">मराठी</button>
+            </div>
+            <a class="bag-link" href="cart.html" aria-label="Shopping bag, 0 items">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M5.5 8.5h13l1 12h-15l1-12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="bag-label" data-i18n="bag">Bag</span>
+              <span class="cart-count" aria-live="polite">0</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="contact-main">
+      <section class="contact-hero">
+        <div class="page-width contact-hero-inner">
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-contact-i18n="eyebrow">A NOTE TO OUR STUDIO</span></p>
+          <h1 data-contact-i18n="title">Every lovely thing<br><em>starts with hello.</em></h1>
+          <p data-contact-i18n="intro">A question about an order, a custom idea, or simply a detail you'd love to know? We'd be delighted to hear from you.</p>
+          <span class="contact-hero-star" aria-hidden="true">✳</span>
+        </div>
+      </section>
+
+      <section class="contact-content page-width">
+        <div class="contact-layout">
+          <div class="contact-aside">
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-contact-i18n="asideEyebrow">HERE FOR THE DETAILS</span></p>
+            <h2 data-contact-i18n="asideTitle">Let's make it<br><em>personal.</em></h2>
+            <p data-contact-i18n="asideBody">From finding the right fit to dreaming up a design all your own, send us a note and our team will get back to you.</p>
+            <div class="contact-promise">
+              <span class="contact-promise-mark" aria-hidden="true">✳</span>
+              <p><strong data-contact-i18n="promiseTitle">A thoughtful reply, always.</strong><span data-contact-i18n="promiseBody">Your message goes directly to the NK Design team.</span></p>
+            </div>
+            <a class="contact-custom-link" href="custom-design.html"><span data-contact-i18n="customLink">Already have a design in mind?</span><span aria-hidden="true">↗</span></a>
+            <a class="contact-whatsapp" id="contact-whatsapp" hidden target="_blank" rel="noopener noreferrer">
+              <span class="whatsapp-mark" aria-hidden="true">↗</span>
+              <span><strong data-contact-i18n="whatsappTitle">Prefer WhatsApp?</strong><span data-contact-i18n="whatsappBody">Send a quick note to our team.</span></span>
+            </a>
+          </div>
+
+          <div class="contact-form-card glass-card" id="contact-form-card">
+            <div class="contact-form-heading">
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span><span data-contact-i18n="formEyebrow">WE'RE LISTENING</span></p>
+              <h2 data-contact-i18n="formTitle">Write us a <em>little note.</em></h2>
+              <p data-contact-i18n="formIntro">Share a few details and we'll be in touch.</p>
+            </div>
+            <form id="contact-form" novalidate>
+              <div class="contact-fields">
+                <label class="contact-field"><span data-contact-i18n="nameLabel">Your name</span><input name="name" type="text" autocomplete="name" maxlength="100" required data-contact-placeholder="namePlaceholder" placeholder="Name"></label>
+                <label class="contact-field"><span data-contact-i18n="emailLabel">Email address</span><input name="email" type="email" autocomplete="email" maxlength="160" required data-contact-placeholder="emailPlaceholder" placeholder="you@example.com"></label>
+                <label class="contact-field"><span data-contact-i18n="phoneLabel">Phone number (optional)</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" pattern="\+?[0-9\s().-]{7,24}" data-contact-placeholder="phonePlaceholder" placeholder="+91"></label>
+                <label class="contact-field"><span data-contact-i18n="subjectLabel">What can we help with?</span>
+                  <select name="subject" required>
+                    <option value="" data-contact-i18n="subjectPlaceholder">Choose a topic</option>
+                    <option value="Order enquiry" data-contact-i18n="subjectOrder">An existing order</option>
+                    <option value="Custom design" data-contact-i18n="subjectCustom">A custom design</option>
+                    <option value="Product enquiry" data-contact-i18n="subjectProduct">A product or collection</option>
+                    <option value="Shipping" data-contact-i18n="subjectShipping">Shipping and delivery</option>
+                    <option value="Other" data-contact-i18n="subjectOther">Something else</option>
+                  </select>
+                </label>
+                <label class="contact-field contact-field-wide"><span data-contact-i18n="messageLabel">Your message</span>
+                  <textarea name="message" rows="5" maxlength="3000" required data-contact-placeholder="messagePlaceholder" placeholder="Tell us a little about what you have in mind…"></textarea>
+                  <span class="message-count" id="message-count">0 / 3000</span>
+                </label>
+              </div>
+              <label class="contact-consent"><input name="contactConsent" type="checkbox" required><span data-contact-i18n="consent">NK Design may contact me about this message.</span></label>
+              <div class="contact-error" id="contact-error" role="alert" tabindex="-1" hidden></div>
+              <button class="button button-wine contact-submit" type="submit"><span data-contact-i18n="submit">Send your note</span><span aria-hidden="true">↗</span></button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-signoff">
+        <div class="page-width contact-signoff-inner">
+          <p class="eyebrow"><span class="eyebrow-line"></span><span data-contact-i18n="signoffEyebrow">MADE WITH CARE, ALWAYS</span></p>
+          <h2 data-contact-i18n="signoffTitle">We can't wait to<br><em>hear your story.</em></h2>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-top">
+        <a class="brand footer-brand" href="index.html" aria-label="NK Design home"><img class="brand-logo" src="assets/nk-design-logo.svg" alt="NK Designer"></a>
+        <p data-i18n="footerNote">Crafted with intention. Worn with joy.</p>
+        <a href="shop.html" data-i18n="browseCollections">Browse collections</a>
+      </div>
+      <div class="page-width footer-bottom">
+        <span>© <span id="year"></span> NK Design. <span data-i18n="rights">All rights reserved.</span></span>
+        <a href="#main" data-i18n="backTop">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

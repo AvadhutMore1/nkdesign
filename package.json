@@ -1,0 +1,25 @@
+{
+  "name": "nk-design-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NK Design storefront and MySQL-backed collection management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "admin:create": "node scripts/create-admin.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
