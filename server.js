@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const crypto = require("node:crypto");
 const fs = require("node:fs");
+const os = require("node:os");
 const path = require("node:path");
 const express = require("express");
 const { rateLimit } = require("express-rate-limit");
@@ -13,8 +14,25 @@ const CUSTOMER_SESSION_COOKIE = "nk_design_customer";
 const SESSION_DURATION_HOURS = 8;
 const MAX_ATTRIBUTES = 30;
 const MAX_PRODUCT_IMAGES = 5;
-const MAX_PRODUCT_IMAGE_SIZE = 5 * 1024 * 1024;
-const productImageDirectory = path.join(__dirname, "uploads", "products");
+const MAX_PRODUCT_IMAGE_SIZE = 3 * 1024 * 1024;
+const MAX_PRODUCT_UPLOAD_SIZE = 4 * 1024 * 1024;
+const isVercel = process.env.VERCEL === "1";
+const publicDirectory = path.join(__dirname, "public");
+const productImageDirectory = isVercel
+  ? path.join(os.tmpdir(), "nk-design-product-uploads")
+  : path.join(__dirname, "uploads", "products");
+
+function isProductImageUrl(value) {
+  if (typeof value !== "string") return false;
+  if (/^\/uploads\/products\/[a-f0-9-]{36}\.(?:jpg|png|webp)$/i.test(value)) return true;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname.endsWith(".public.blob.vercel-storage.com")
+      && /^\/products\/[a-f0-9-]{36}\.(?:jpg|png|webp)$/i.test(url.pathname);
+  } catch {
+    return false;
+  }
+}
 
 function requiredEnv(name) {
   const value = process.env[name];
@@ -89,13 +107,15 @@ function validateProductInput(body, existingImages, uploadedFiles) {
       return { error: `${field} must contain up to 20 non-empty values of 40 characters or fewer.` };
     }
   }
-  const allowedImagePath = /^\/uploads\/products\/[a-f0-9-]{36}\.(?:jpg|png|webp)$/i;
   if (!Array.isArray(existingImages) || existingImages.length > MAX_PRODUCT_IMAGES
-    || existingImages.some((image) => typeof image !== "string" || !allowedImagePath.test(image))) {
+    || existingImages.some((image) => !isProductImageUrl(image))) {
     return { error: "Product image list is invalid." };
   }
   if (!Array.isArray(uploadedFiles)) return { error: "Uploaded product photos are invalid." };
-  const images = [...new Set([...existingImages, ...uploadedFiles.map((file) => `/uploads/products/${file.filename}`)])];
+  const images = [...new Set([
+    ...existingImages,
+    ...uploadedFiles.map((file) => file.blobUrl || `/uploads/products/${file.filename}`)
+  ])];
   if (!images.length || images.length > MAX_PRODUCT_IMAGES) {
     return { error: `Add between 1 and ${MAX_PRODUCT_IMAGES} product photos.` };
   }
@@ -134,16 +154,42 @@ async function validateImageFile(file) {
 }
 
 async function removeUploadedImages(files) {
-  await Promise.all((files || []).map((file) => fs.promises.unlink(file.path).catch((error) => {
-    if (error.code !== "ENOENT") throw error;
-  })));
+  await Promise.all((files || []).map(async (file) => {
+    if (file.blobUrl) {
+      const { del } = await import("@vercel/blob");
+      await del(file.blobUrl);
+    }
+    await fs.promises.unlink(file.path).catch((error) => {
+      if (error.code !== "ENOENT") throw error;
+    });
+  }));
+}
+
+async function persistUploadedImages(files) {
+  if (!isVercel) return;
+  const { put } = await import("@vercel/blob");
+  for (const file of files) {
+    const content = await fs.promises.readFile(file.path);
+    const uploaded = await put(`products/${file.filename}`, content, {
+      access: "public",
+      addRandomSuffix: false,
+      contentType: file.mimetype
+    });
+    file.blobUrl = uploaded.url;
+    await fs.promises.unlink(file.path);
+  }
 }
 
 async function removeProductImages(images) {
-  const safeNamePattern = /^\/uploads\/products\/([a-f0-9-]{36})\.(?:jpg|png|webp)$/i;
   await Promise.all((Array.isArray(images) ? images : []).map(async (image) => {
-    const match = typeof image === "string" ? image.match(safeNamePattern) : null;
-    if (!match) return;
+    if (typeof image !== "string") return;
+    if (/^https:\/\//i.test(image)) {
+      if (!isProductImageUrl(image)) return;
+      const { del } = await import("@vercel/blob");
+      await del(image);
+      return;
+    }
+    if (!isProductImageUrl(image)) return;
     const filename = path.basename(image);
     await fs.promises.unlink(path.join(productImageDirectory, filename)).catch((error) => {
       if (error.code !== "ENOENT") throw error;
@@ -383,11 +429,17 @@ async function bootstrapAdmin(pool) {
   const name = process.env.ADMIN_NAME?.trim() || "NK Design Admin";
   if (password.length < 12) throw new Error("ADMIN_PASSWORD must contain at least 12 characters.");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("ADMIN_EMAIL must be a valid email address.");
-  await pool.execute(
-    "INSERT INTO admin_users (name, email, password_hash) VALUES (?, ?, ?)",
-    [name.slice(0, 100), email, hashPassword(password)]
-  );
-  console.log(`Created the initial admin account for ${email}.`);
+  try {
+    await pool.execute(
+      "INSERT INTO admin_users (name, email, password_hash) VALUES (?, ?, ?)",
+      [name.slice(0, 100), email, hashPassword(password)]
+    );
+    console.log(`Created the initial admin account for ${email}.`);
+  } catch (error) {
+    if (error.code !== "ER_DUP_ENTRY") throw error;
+    const [[{ total: adminsAfterRace }]] = await pool.query("SELECT COUNT(*) AS total FROM admin_users");
+    if (Number(adminsAfterRace) === 0) throw error;
+  }
 }
 
 function collectionFromRow(row) {
@@ -427,13 +479,18 @@ function createApp(pool) {
   fs.mkdirSync(productImageDirectory, { recursive: true });
   const app = express();
   app.disable("x-powered-by");
-  if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
+  if (process.env.NODE_ENV === "production" || isVercel) app.set("trust proxy", 1);
   app.use((req, res, next) => {
     res.set("X-Content-Type-Options", "nosniff");
     res.set("X-Frame-Options", "DENY");
     res.set("Referrer-Policy", "strict-origin-when-cross-origin");
     next();
   });
+  if (typeof pool.initialize === "function") {
+    app.use((req, res, next) => {
+      pool.initialize().then(() => next(), next);
+    });
+  }
   app.use("/api", (req, res, next) => {
     res.set("Cache-Control", "no-store");
     next();
@@ -464,12 +521,20 @@ function createApp(pool) {
         });
         if (error instanceof multer.MulterError) {
           const message = error.code === "LIMIT_FILE_SIZE"
-            ? "Each product photo must be 5 MB or smaller."
+            ? "Each product photo must be 3 MB or smaller."
             : `Upload at most ${MAX_PRODUCT_IMAGES} product photos at a time.`;
           res.status(400).json({ error: message });
           return;
         }
         res.status(400).json({ error: error.message || "Product photo upload failed." });
+        return;
+      }
+      const uploadSize = (req.files || []).reduce((total, file) => total + file.size, 0);
+      if (uploadSize > MAX_PRODUCT_UPLOAD_SIZE) {
+        removeUploadedImages(req.files || []).catch((cleanupError) => {
+          console.error("Could not remove oversized product photo uploads.", cleanupError);
+        });
+        res.status(400).json({ error: "Product photos must total 4 MB or less per save." });
         return;
       }
       next();
@@ -773,6 +838,7 @@ function createApp(pool) {
           return res.status(400).json({ error: "One of the uploaded files is not a valid JPG, PNG, or WebP image." });
         }
       }
+      await persistUploadedImages(files);
       const result = validateProductInput(body, existingImages, files);
       if (result.error) {
         await removeUploadedImages(files);
@@ -836,6 +902,7 @@ function createApp(pool) {
           return res.status(400).json({ error: "One of the uploaded files is not a valid JPG, PNG, or WebP image." });
         }
       }
+      await persistUploadedImages(files);
       const result = validateProductInput(body, existingImages, files);
       if (result.error) {
         await removeUploadedImages(files);
@@ -947,15 +1014,20 @@ function createApp(pool) {
 
   app.use("/api", (req, res) => res.status(404).json({ error: "API endpoint was not found." }));
 
-  app.get(["/index.html", "/shop.html", "/cart.html", "/contact.html", "/custom-design.html"], requireSignedInSite);
-  app.get("/login.html", (req, res) => res.sendFile(path.join(__dirname, "login.html")));
-  app.use("/uploads/products", express.static(productImageDirectory, { fallthrough: false, index: false, dotfiles: "deny" }));
+  app.get(["/index.html", "/shop.html", "/cart.html", "/contact.html", "/custom-design.html"], requireSignedInSite, (req, res, next) => {
+    res.sendFile(path.join(__dirname, path.basename(req.path)), (error) => {
+      if (error) next(error);
+    });
+  });
+  if (!isVercel) {
+    app.use("/uploads/products", express.static(productImageDirectory, { fallthrough: false, index: false, dotfiles: "deny" }));
+  }
   app.use((req, res, next) => {
-    const publicFiles = /^\/(?:login\.html|login\.js|index\.html|shop\.html|cart\.html|contact\.html|custom-design\.html|admin\.html|script\.js|catalog\.js|cart\.js|contact\.js|custom-studio\.js|admin\.js|styles\.css|assets\/[a-z0-9_-]+\.(?:svg|png|jpe?g|webp|woff2?))$/i;
+    const publicFiles = /^\/(?:login\.html|admin\.html|script\.js|catalog\.js|cart\.js|contact\.js|custom-studio\.js|admin\.js|login\.js|styles\.css|assets\/[a-z0-9_-]+\.(?:svg|png|jpe?g|webp|woff2?))$/i;
     if (req.path !== "/" && !publicFiles.test(req.path)) return res.sendStatus(404);
     next();
   });
-  app.use(express.static(path.join(__dirname), { index: "index.html", dotfiles: "deny" }));
+  app.use(express.static(publicDirectory, { dotfiles: "deny" }));
 
   app.use((error, req, res, next) => {
     if (res.headersSent) return next(error);
@@ -970,8 +1042,8 @@ function createApp(pool) {
   return app;
 }
 
-async function startServer() {
-  const pool = mysql.createPool({
+function createDatabasePool() {
+  return mysql.createPool({
     host: requiredEnv("DB_HOST"),
     port: Number(process.env.DB_PORT || 3306),
     database: requiredEnv("DB_NAME"),
@@ -984,20 +1056,31 @@ async function startServer() {
         }
       : undefined,
     waitForConnections: true,
-    connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || 10),
+    connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || (isVercel ? 5 : 10)),
     queueLimit: 0,
     charset: "utf8mb4",
     timezone: "Z"
   });
+}
 
+async function initializeDatabase(pool) {
   try {
     await pool.query("SELECT 1");
     await createTables(pool);
     await bootstrapAdmin(pool);
     await pool.execute("DELETE FROM admin_sessions WHERE expires_at <= UTC_TIMESTAMP()");
   } catch (error) {
-    await pool.end();
     throw new Error(`Could not prepare the NK Design database: ${error.message}`, { cause: error });
+  }
+}
+
+async function startServer() {
+  const pool = createDatabasePool();
+  try {
+    await initializeDatabase(pool);
+  } catch (error) {
+    await pool.end();
+    throw error;
   }
 
   const app = createApp(pool);
@@ -1030,9 +1113,12 @@ if (require.main === module) {
 
 module.exports = {
   createApp,
+  createDatabasePool,
   createTables,
   hashPassword,
+  initializeDatabase,
   isValidEmail,
+  isProductImageUrl,
   productFromRow,
   slugify,
   validateCollectionInput,

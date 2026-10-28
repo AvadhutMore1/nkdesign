@@ -51,13 +51,13 @@ const adminTranslations = {
     discountPrice: "Discount price (optional)",
     sizes: "Sizes (comma-separated)",
     colors: "Colors (comma-separated)",
-    photos: "Product photos (JPG, PNG, WebP; up to 5 MB each)",
+    photos: "Product photos (up to 3 MB each; 4 MB total per save)",
     saveProduct: "Save product",
     productSaved: "Product saved.",
     productDeleted: "Product deleted.",
     productSaveError: "Could not save this product. Check the photo format and try again.",
     productDeleteConfirm: "Permanently delete this product and its photos?",
-    productPhotoHint: "Choose up to five JPG, PNG, or WebP photos, each 5 MB or smaller.",
+    productPhotoHint: "Choose up to five JPG, PNG, or WebP photos up to 3 MB each and 4 MB total per save.",
     noProductPhotos: "Add at least one product photo.",
     availability: "Availability",
     active: "Active",
@@ -183,13 +183,13 @@ const adminTranslations = {
     discountPrice: "सवलतीची किंमत (ऐच्छिक)",
     sizes: "मापे (स्वल्पविरामाने वेगळी)",
     colors: "रंग (स्वल्पविरामाने वेगळे)",
-    photos: "उत्पादनाचे फोटो (JPG, PNG, WebP; प्रत्येक 5 MB पर्यंत)",
+    photos: "उत्पादनाचे फोटो (प्रत्येकी 3 MB पर्यंत; एका सेव्हमध्ये एकूण 4 MB)",
     saveProduct: "उत्पादन जतन करा",
     productSaved: "उत्पादन जतन केले.",
     productDeleted: "उत्पादन हटवले.",
     productSaveError: "उत्पादन जतन झाले नाही. फोटोचा प्रकार तपासून पुन्हा प्रयत्न करा.",
     productDeleteConfirm: "हे उत्पादन आणि त्याचे फोटो कायमचे हटवायचे?",
-    productPhotoHint: "प्रत्येकी 5 MB पर्यंतचे पाच JPG, PNG किंवा WebP फोटो निवडा.",
+    productPhotoHint: "प्रत्येकी 3 MB पर्यंतचे जास्तीत जास्त पाच JPG, PNG किंवा WebP फोटो निवडा (एका सेव्हमध्ये एकूण 4 MB).",
     noProductPhotos: "किमान एक उत्पादनाचा फोटो जोडा.",
     availability: "उपलब्धता",
     active: "सक्रिय",
@@ -717,6 +717,12 @@ async function saveProduct(event) {
     errorNode.hidden = false;
     return;
   }
+  if (pendingProductImages.some((file) => file.size > 3 * 1024 * 1024)
+    || pendingProductImages.reduce((total, file) => total + file.size, 0) > 4 * 1024 * 1024) {
+    errorNode.textContent = adminText("productPhotoHint");
+    errorNode.hidden = false;
+    return;
+  }
 
   submit.disabled = true;
   try {
@@ -1078,10 +1084,21 @@ productForm.addEventListener("submit", saveProduct);
 document.getElementById("product-images").addEventListener("change", (event) => {
   const selectedFiles = Array.from(event.currentTarget.files || []);
   const room = Math.max(0, 5 - retainedProductImages.length - pendingProductImages.length);
-  pendingProductImages.push(...selectedFiles.slice(0, room));
+  let availableSize = 4 * 1024 * 1024 - pendingProductImages.reduce((total, file) => total + file.size, 0);
+  let skippedFile = false;
+  selectedFiles.forEach((file) => {
+    if (pendingProductImages.length >= 5 - retainedProductImages.length
+      || file.size > 3 * 1024 * 1024
+      || file.size > availableSize) {
+      skippedFile = true;
+      return;
+    }
+    pendingProductImages.push(file);
+    availableSize -= file.size;
+  });
   event.currentTarget.value = "";
   renderProductImagePreview();
-  if (selectedFiles.length > room) {
+  if (skippedFile || selectedFiles.length > room) {
     const errorNode = document.getElementById("product-form-error");
     errorNode.textContent = adminText("productPhotoHint");
     errorNode.hidden = false;

@@ -67,7 +67,9 @@ const formContracts = [
 ];
 
 function read(relativePath) {
-  return fs.readFileSync(path.join(projectRoot, relativePath), "utf8");
+  const publicPath = path.join(projectRoot, "public", relativePath);
+  const filePath = fs.existsSync(publicPath) ? publicPath : path.join(projectRoot, relativePath);
+  return fs.readFileSync(filePath, "utf8");
 }
 
 test("all application pages reference existing local JavaScript modules", () => {
@@ -77,14 +79,17 @@ test("all application pages reference existing local JavaScript modules", () => 
     assert.ok(scripts.length, `${htmlFile} should load its page controller`);
     for (const [, source] of scripts) {
       if (/^(?:https?:)?\/\//i.test(source)) continue;
-      const localPath = path.resolve(path.dirname(path.join(projectRoot, htmlFile)), source);
+      const localPath = path.resolve(projectRoot, "public", source);
       assert.ok(fs.existsSync(localPath), `${htmlFile} references missing script ${source}`);
     }
   }
 });
 
 test("all application page JavaScript modules pass Node syntax validation", () => {
-  const scripts = fs.readdirSync(projectRoot).filter((file) => file.endsWith(".js"));
+  const scripts = fs.readdirSync(path.join(projectRoot, "public"))
+    .filter((file) => file.endsWith(".js"))
+    .map((file) => path.join("public", file));
+  scripts.push("index.js", "server.js");
   scripts.push(...fs.readdirSync(path.join(projectRoot, "scripts"))
     .filter((file) => file.endsWith(".js"))
     .map((file) => path.join("scripts", file)));
@@ -119,11 +124,15 @@ test("HTML IDs are unique on every application page", () => {
   }
 });
 
-test("Render deployment blueprint uses persistent photo storage and a database-backed health check", () => {
-  const blueprint = read("render.yaml");
-  assert.match(blueprint, /healthCheckPath:\s*\/healthz/);
-  assert.match(blueprint, /mountPath:\s*\/opt\/render\/project\/src\/uploads/);
-  assert.match(blueprint, /key:\s*DB_HOST\s*\r?\n\s*sync:\s*false/);
-  assert.match(blueprint, /key:\s*DB_PASSWORD\s*\r?\n\s*sync:\s*false/);
-  assert.match(blueprint, /key:\s*ADMIN_PASSWORD\s*\r?\n\s*sync:\s*false/);
+test("Vercel deployment config bundles protected pages and serves static assets from public", () => {
+  const configuration = JSON.parse(read("vercel.json"));
+  assert.equal(configuration.functions["index.js"].includeFiles, "*.html");
+  assert.equal(configuration.functions["index.js"].maxDuration, 30);
+  assert.ok(fs.existsSync(path.join(projectRoot, "public", "styles.css")));
+  assert.ok(fs.existsSync(path.join(projectRoot, "public", "admin.html")));
+  assert.match(read("index.js"), /module\.exports = createApp\(pool\)/);
+  for (const page of ["index.html", "shop.html", "cart.html", "contact.html", "custom-design.html"]) {
+    assert.ok(fs.existsSync(path.join(projectRoot, page)), `${page} must remain behind the signed-in Express route.`);
+    assert.equal(fs.existsSync(path.join(projectRoot, "public", page)), false, `${page} must not bypass authentication via static hosting.`);
+  }
 });

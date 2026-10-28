@@ -26,7 +26,9 @@ function apiResponse(status, payload = {}) {
 }
 
 async function openPage(pageName) {
-  const html = fs.readFileSync(path.join(projectRoot, pageName), "utf8");
+  const publicPath = path.join(projectRoot, "public", pageName);
+  const htmlPath = fs.existsSync(publicPath) ? publicPath : path.join(projectRoot, pageName);
+  const html = fs.readFileSync(htmlPath, "utf8");
   const dom = new JSDOM(html, {
     url: `http://localhost/${pageName}`,
     runScripts: "outside-only",
@@ -97,7 +99,7 @@ async function openPage(pageName) {
   };
 
   for (const [, source] of html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi)) {
-    const script = fs.readFileSync(path.join(projectRoot, source), "utf8");
+    const script = fs.readFileSync(path.join(projectRoot, "public", source), "utf8");
     try {
       window.eval(`${script}\n//# sourceURL=${source}`);
     } catch (error) {
@@ -116,6 +118,33 @@ test("all page JavaScript modules initialize without browser runtime errors", as
     } finally {
       opened.dom.window.close();
     }
+  }
+});
+
+test("admin product photo picker prevents Vercel function upload limits from being exceeded", async () => {
+  const opened = await openPage("admin.html");
+  try {
+    const input = opened.window.document.getElementById("product-images");
+    const formError = opened.window.document.getElementById("product-form-error");
+    const makeFile = (name, size) => new opened.window.File([new Uint8Array(size)], name, { type: "image/png" });
+    Object.defineProperty(input, "files", {
+      configurable: true,
+      value: [makeFile("first.png", 2 * 1024 * 1024), makeFile("second.png", 2 * 1024 * 1024 + 1)]
+    });
+    input.dispatchEvent(new opened.window.Event("change", { bubbles: true }));
+    assert.equal(opened.window.document.getElementById("product-image-preview").children.length, 1);
+    assert.match(formError.textContent, /4 MB total per save/i);
+
+    Object.defineProperty(input, "files", {
+      configurable: true,
+      value: [makeFile("oversized.png", 3 * 1024 * 1024 + 1)]
+    });
+    input.dispatchEvent(new opened.window.Event("change", { bubbles: true }));
+    assert.equal(opened.window.document.getElementById("product-image-preview").children.length, 1);
+    assert.match(formError.textContent, /3 MB each/i);
+    assert.deepEqual(opened.errors, []);
+  } finally {
+    opened.dom.window.close();
   }
 });
 

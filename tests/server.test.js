@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const { createApp, hashPassword, isValidEmail, slugify, validateCollectionInput, validateProductInput, verifyPassword } = require("../server");
+const { createApp, hashPassword, isProductImageUrl, isValidEmail, slugify, validateCollectionInput, validateProductInput, verifyPassword } = require("../server");
 const { createOrUpdateAdmin } = require("../scripts/create-admin");
 
 test("collection input accepts bilingual fields and valid attributes", () => {
@@ -52,6 +52,50 @@ test("product input requires valid pricing, attributes, and at least one uploade
   assert.match(validateProductInput({ ...body, discountPrice: 3000 }, [], [{ filename: "image.png" }]).error, /Discount price/);
   assert.match(validateProductInput(body, ["/uploads/products/another-product.png"], []).error, /image list/i);
   assert.match(validateProductInput(body, [], null).error, /uploaded product photos/i);
+});
+
+test("product input accepts only canonical local or Vercel Blob photo URLs", () => {
+  const blobUrl = "https://store.public.blob.vercel-storage.com/products/123e4567-e89b-12d3-a456-426614174000.jpg";
+  assert.equal(isProductImageUrl("/uploads/products/123e4567-e89b-12d3-a456-426614174000.jpg"), true);
+  assert.equal(isProductImageUrl(blobUrl), true);
+  assert.equal(isProductImageUrl("https://example.com/products/123e4567-e89b-12d3-a456-426614174000.jpg"), false);
+  assert.equal(isProductImageUrl("https://store.public.blob.vercel-storage.com/unrelated.jpg"), false);
+});
+
+test("admin product image requests reject batches larger than 4 MB", async () => {
+  const admin = { id: 1, name: "Studio Admin", email: "admin@example.com" };
+  const pool = {
+    async query() {
+      return [[], []];
+    },
+    async execute(sql) {
+      if (sql.includes("FROM admin_sessions s")) return [[admin], []];
+      throw new Error(`Unexpected SQL in oversized image test: ${sql}`);
+    }
+  };
+  const server = createApp(pool).listen(0);
+
+  try {
+    await new Promise((resolve) => server.once("listening", resolve));
+    const baseUrl = `http://127.0.0.1:${server.address().port}`;
+    const form = new FormData();
+    form.append("product", JSON.stringify({}));
+    form.append("existingImages", "[]");
+    form.append("images", new Blob([new Uint8Array(2 * 1024 * 1024)], { type: "image/png" }), "first.png");
+    form.append("images", new Blob([new Uint8Array(2 * 1024 * 1024 + 1)], { type: "image/png" }), "second.png");
+    const response = await fetch(`${baseUrl}/api/admin/products`, {
+      method: "POST",
+      headers: {
+        Origin: baseUrl,
+        Cookie: `nk_design_admin=${"a".repeat(64)}`
+      },
+      body: form
+    });
+    assert.equal(response.status, 400);
+    assert.match((await response.json()).error, /4 MB or less/i);
+  } finally {
+    await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+  }
 });
 
 test("email validation rejects malformed and oversized addresses", () => {

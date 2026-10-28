@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "NK Design storefront and MySQL-backed collection management",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "admin:create": "node scripts/create-admin.js",
@@ -13,6 +13,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
@@ -21,5 +22,8 @@
   },
   "devDependencies": {
     "jsdom": "^29.1.1"
+  },
+  "overrides": {
+    "zod": "4.6.7"
   }
 }

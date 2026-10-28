@@ -24,7 +24,7 @@ The storefront serves live collections from MySQL. The site opens on a shared si
 
 5. Open `http://localhost:3000`. Sign in with the bootstrap admin credentials to open the dashboard, or create a customer account to visit the storefront.
 
-The server creates the required tables automatically. The admin dashboard can add, edit, publish, and delete products, including uploading up to five JPG, PNG, or WebP photos per product (5 MB maximum per photo). Product images are stored in the local `uploads/products/` directory, so keep that directory persistent and include it in your backups when deploying. The server verifies image signatures and generates its own filenames.
+The server creates the required tables automatically. The admin dashboard can add, edit, publish, and delete products, including up to five JPG, PNG, or WebP photos per product. Photo uploads are limited to 3 MB per photo and 4 MB total per save. The server verifies image signatures and generates its own filenames. Locally, photos are stored in `uploads/products/`; on Vercel, they are stored in Vercel Blob.
 
 `ADMIN_EMAIL` and `ADMIN_PASSWORD` are only used to create the first admin when `admin_users` is empty; changing those environment values later does not reset an existing account. Admin and customer sessions are stored in MySQL, use separate HTTP-only same-site cookies, and expire after eight hours. Customers need an account to visit storefront pages. In production, serve the site over HTTPS and set `NODE_ENV=production`.
 
@@ -32,18 +32,14 @@ To create the single admin account or change its password from an interactive te
 
 The storefront reads active products and collections from MySQL. Orders and design requests are still presentation/integration surfaces and need their own data model and workflows before they can be managed through this service.
 
-## Prepare a Render deployment
+## Deploy to Vercel
 
-The repository includes a Render Blueprint in `render.yaml`. It configures the Node web service, a database-backed `/healthz` check, and a persistent disk mounted for product photos. The service is configured on Render's Starter plan because its persistent disk is not available on the free web-service plan. Review current Render pricing before creating resources; this project has not been deployed and no hosting resources have been created.
+The project is configured for Vercel's Express runtime. Vercel serves files from `public/`; authenticated storefront pages remain outside that directory and are served through Express after session checks. The Node function prepares the MySQL schema on its first request and reuses a connection pool while warm.
 
-Before deploying:
+1. Import `https://github.com/AvadhutMore1/nkdesign` into Vercel, deploy the `main` branch, and keep the Express framework preset/default build settings.
+2. Create or connect a MySQL 8 database reachable from Vercel. Add `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` to the Vercel project's Production environment. Use a provider's TLS settings where available (`DB_SSL=true` and, if required, `DB_SSL_CA`).
+3. Add `ADMIN_NAME`, `ADMIN_EMAIL`, and a unique strong `ADMIN_PASSWORD` of at least 12 characters as Production environment variables. These bootstrap the initial admin only if the database has no admin account. Never use the example credentials.
+4. In the Vercel project, create and connect a **public Vercel Blob store**. Vercel adds its Blob credentials to the project; the admin product uploader uses Blob for durable product photos. Do not expose Blob tokens in browser code or commit them.
+5. Redeploy after setting environment variables and connecting storage. Open the Vercel URL, sign in, and verify the admin dashboard and storefront.
 
-1. Put the project in a GitHub repository and connect that repository to Render. Do not commit `.env`, passwords, or database exports.
-2. Create a production MySQL 8 database with a dedicated application user. Configure its network access to allow the Render service to connect. Set the Blueprint's `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` environment variables in Render. For providers that support TLS, keep `DB_SSL=true`; if the provider requires a custom CA certificate, set `DB_SSL_CA` to the certificate contents.
-3. Set `ADMIN_NAME`, `ADMIN_EMAIL`, and a unique, strong `ADMIN_PASSWORD` (at least 12 characters) as Render environment variables. These values bootstrap the initial admin only when the production database has no admin account. Never reuse a sample or local development password.
-4. Review the Blueprint, confirm the plan and disk cost, then create the Render resources. The app creates its database tables on startup. Render assigns the public `onrender.com` URL; HTTPS is provided by the platform.
-5. After deployment, open the URL, sign in with the production admin account, and verify product and collection pages.
-
-The production database is separate from the local MySQL database. Deploying does not copy local customer accounts, collections, products, or uploaded photos. Export/import the database and copy or re-upload product photos as a separate, backed-up migration before switching customers to the live site. The persistent disk stores uploaded files, but it is not a backup.
-
-To run the Blueprint with a free web service instead, remove the disk and choose the free plan only for a temporary demo: local uploads can be lost when the service restarts or redeploys. The database still needs to be hosted separately and kept persistent.
+Vercel's production database starts separately from local development: local accounts, collections, products, and photos are not copied automatically. Migrate your MySQL data and re-upload product photos before directing customers to the new site. Back up the database and Blob store independently. Orders and design requests still require their own backend workflows.
